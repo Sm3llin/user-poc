@@ -7,8 +7,16 @@
     <table>
         <tbody>
             <tr>
-                <td>Roles</td>
-                <td><a href="{{ url_for('admin.roles') }}">Link</a></td>
+                <td>User List</td>
+                <td><a href="{{ url_for('admin.users') }}">Link</a></td>
+            </tr>
+            <tr>
+                <td>Assign Role</td>
+                <td><a href="{{ url_for('admin.assign_role') }}">Link</a></td>
+            </tr>
+            <tr>
+                <td>Create Role</td>
+                <td><a href="{{ url_for('admin.create_role') }}">Link</a></td>
             </tr>
         </tbody>
     </table>

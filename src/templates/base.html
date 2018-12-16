@@ -9,8 +9,14 @@
 <nav>
     <ul role="navigation">
         <li><a href="{{ url_for('index') }}">Home</a></li>
-        <li><a href="{{ url_for('secure') }}">Secure</a></li>
-        <li><a href="{{ url_for('admin.index') }}">Admin Dashboard</a></li>
+        {% if current_user.is_authenticated -%}
+            {% if current_user.has_role('editor') -%}
+            <li><a href="{{ url_for('secure') }}">Secure</a></li>
+            {% endif -%}
+            {% if current_user.has_role('admin') -%}
+            <li><a href="{{ url_for('admin.index') }}">Admin Dashboard</a></li>
+            {% endif -%}
+        {% endif -%}
         <li class="nav__center"></li>
         {% if current_user.is_authenticated -%}
             <li>Hi {{ current_user.email }}!</li>

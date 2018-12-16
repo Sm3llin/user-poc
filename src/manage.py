@@ -10,7 +10,7 @@ manager = Manager(app)
 manager.add_command("db", MigrateCommand)
 
 from models.user import User
-from models.role import *
+from models.role import Role, UserRoles
 
 
 if __name__ == "__main__":

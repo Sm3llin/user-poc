@@ -24,6 +24,9 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'<User email={self.email}>'
 
+    def has_role(self, role: str) -> bool:
+        return role in [r.name for r in self.roles]
+
     def is_active(self):
         """True, as all users are active."""
         return True

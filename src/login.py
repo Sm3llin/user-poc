@@ -1,6 +1,6 @@
 from typing import Optional
 
-from flask_login import login_manager, LoginManager
+from flask_login import LoginManager
 from werkzeug.exceptions import abort
 
 from models.user import User

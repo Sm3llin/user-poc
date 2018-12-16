@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from "macros/forms.html" import render_field %}
+{% block body %}
+<form method="POST" action="{{ url_for('admin.create_role') }}">
+    {{ form.csrf_token }}
+    {{ render_field(form.name) }}
+    <input type="submit" value="Create">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+</form>
+{% endblock %}

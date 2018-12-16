@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% from "macros/forms.html" import render_field %}
+{% block body %}
+<form method="POST" action="{{ url_for('admin.assign_role') }}">
+    {{ form.csrf_token }}
+    {{ render_field(form.email) }}
+    {{ render_field(form.role) }}
+    <input type="submit" value="Assign">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+</form>
+{% endblock %}

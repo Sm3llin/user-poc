@@ -1,26 +1,15 @@
-from functools import wraps
+from typing import Optional
 
-from flask import Blueprint, render_template, redirect, url_for, request, abort
-from flask_login import login_required, current_user
+from flask import Blueprint, render_template, redirect, url_for
+from flask_login import login_required
+from sqlalchemy.orm import joinedload
+
+from forms.admin.roles import AssignRoleForm, RoleForm
+from models.role import Role
+from models.user import User
+from util.decorators import role_required
 
 admin = Blueprint("admin", __name__)
-
-
-def role_required(*required_roles):
-    def decorator(f):
-        @wraps(f)
-        def decorated_function(*args, **kwargs):
-            if current_user.is_authenticated:
-                user_roles = [role.name for role in current_user.roles]
-
-                for role in required_roles:
-                    if role not in user_roles:
-                        break
-                else:
-                    return f(*args, **kwargs)
-            return abort(404)
-        return decorated_function
-    return decorator
 
 
 @admin.before_request
@@ -35,6 +24,49 @@ def index():
     return render_template("admin/index.html")
 
 
+@admin.route("/users")
+def users():
+    _users = User.query.options(
+        joinedload(User.roles)
+    ).all()
+
+    return render_template('admin/users.html', users=_users)
+
+
 @admin.route("/roles")
 def roles():
     return render_template("admin/roles.html")
+
+
+@admin.route("/role/create", methods=["GET", "POST"])
+def create_role():
+    form = RoleForm()
+
+    if form.validate_on_submit():
+        from db import db
+
+        role = Role(name=form.name.data)
+
+        db.session.add(role)
+        db.session.commit()
+
+        return redirect(url_for('admin.create_role'))
+    return render_template('admin/create_role.html', form=form)
+
+
+@admin.route("/role/assign", methods=["GET", "POST"])
+def assign_role():
+    form = AssignRoleForm()
+
+    if form.validate_on_submit():
+        from db import db
+        user = form.email.data
+        role = form.role.data
+
+        if role not in user.roles:
+            user.roles.append(role)
+
+            db.session.commit()
+
+        return redirect(url_for('admin.assign_role'))
+    return render_template('admin/assign_role.html', form=form)
