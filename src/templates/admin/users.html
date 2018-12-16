@@ -3,21 +3,19 @@
 <table>
     <thead>
     <tr>
-        <th>Id</th>
         <th>Email</th>
         <th>Authenticated</th>
         <th>Roles</th>
     </tr>
     </thead>
     <tbody>
-    {% for user in users %}
-    <tr>
-        <td>{{ user.id }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.authenticated }}</td>
-        <td>{{ user.roles|map(attribute="name")|join(", ") }}</td>
-    </tr>
-    {% endfor %}
+        {% for user in users -%}
+        <tr>
+            <td>{{ user.email }}</td>
+            <td>{{ user.authenticated }}</td>
+            <td>{{ user.roles|map(attribute="name")|join(", ") }}</td>
+        </tr>
+        {% endfor %}
     </tbody>
 </table>
 {% endblock %}

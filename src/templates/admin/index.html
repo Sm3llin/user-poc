@@ -4,25 +4,35 @@
     <header>
         <h2>Admin Dashboard</h2>
     </header>
-    <table>
-        <tbody>
-            <tr>
-                <td>User List</td>
-                <td><a href="{{ url_for('admin.users') }}">Link</a></td>
-            </tr>
-            <tr>
-                <td>Assign Role</td>
-                <td><a href="{{ url_for('admin.assign_role') }}">Link</a></td>
-            </tr>
-            <tr>
-                <td>Remove Role</td>
-                <td><a href="{{ url_for('admin.remove_role') }}">Link</a></td>
-            </tr>
-            <tr>
-                <td>Create Role</td>
-                <td><a href="{{ url_for('admin.create_role') }}">Link</a></td>
-            </tr>
-        </tbody>
-    </table>
+    <div>
+        <h4>Users</h4>
+        <table class="admin-table">
+            <tbody>
+                <tr>
+                    <td>User List</td>
+                    <td><a href="{{ url_for('admin.users') }}">Link</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h4>Roles</h4>
+        <table class="admin-table">
+            <tbody>
+                <tr>
+                    <td>Assign Role</td>
+                    <td><a href="{{ url_for('admin.add_role') }}">Link</a></td>
+                </tr>
+                <tr>
+                    <td>Remove Role</td>
+                    <td><a href="{{ url_for('admin.remove_role') }}">Link</a></td>
+                </tr>
+                <tr>
+                    <td>Create Role</td>
+                    <td><a href="{{ url_for('admin.create_role') }}">Link</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </main>
 {% endblock %}

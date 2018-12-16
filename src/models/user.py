@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    email = db.Column(db.String(255), nullable=True, unique=True)
+    email = db.Column(db.String(255), nullable=True, unique=True, info={"label": "Email"})
     password = db.Column(db.String(255), nullable=False)
     authenticated = db.Column(db.Boolean, default=False)
 

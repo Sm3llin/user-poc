@@ -2,6 +2,8 @@ body {
     width: 70%;
     margin-left: auto;
     margin-right: auto;
+
+    font-family:  'Roboto', sans-serif;
 }
 
 nav > ul {
@@ -17,4 +19,8 @@ nav .nav__center {
 
 nav li:not(:first-child) {
     margin-left: 10px;
+}
+
+.admin-table td {
+    min-width: 100px;
 }

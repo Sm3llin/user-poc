@@ -1,6 +1,6 @@
 from typing import Optional
 
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required
 from sqlalchemy.orm import joinedload
 
@@ -16,10 +16,11 @@ admin = Blueprint("admin", __name__)
 @login_required
 @role_required("admin")
 def before_request():
+    # Protecting all admin Blueprint views to only admins
     pass
 
 
-@admin.route("/")
+@admin.route("")
 def index():
     return render_template("admin/index.html")
 
@@ -54,8 +55,8 @@ def create_role():
     return render_template('admin/create_role.html', form=form)
 
 
-@admin.route("/role/assign", methods=["GET", "POST"])
-def assign_role():
+@admin.route("/role/add", methods=["GET", "POST"])
+def add_role():
     form = ModifyRoleForm()
 
     if form.validate_on_submit():
@@ -67,9 +68,13 @@ def assign_role():
             user.roles.append(role)
 
             db.session.commit()
+            flash(f'"{role.name}" successfully added to {user.email}')
+        else:
+            flash(f'{user.email} is already an "{role.name}"')
 
-        return redirect(url_for('admin.assign_role'))
-    return render_template('admin/assign_role.html', form=form)
+        return redirect(url_for('admin.add_role'))
+
+    return render_template('admin/modify_role.html', target_url=url_for("admin.add_role"), form=form)
 
 
 @admin.route("/role/remove", methods=["GET", "POST"])
@@ -85,6 +90,9 @@ def remove_role():
             user.roles.remove(role)
 
             db.session.commit()
+            flash(f'"{role.name}" successfully removed to {user.email}')
+        else:
+            flash(f'{user.email} is not an "{role.name}"')
 
         return redirect(url_for('admin.remove_role'))
-    return render_template('admin/remove_role.html', form=form)
+    return render_template('admin/modify_role.html', target_url=url_for("admin.remove_role"), form=form)
