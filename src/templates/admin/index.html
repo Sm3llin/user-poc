@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block body %}
+<main>
+    <header>
+        <h2>Admin Dashboard</h2>
+    </header>
+    <table>
+        <tbody>
+            <tr>
+                <td>Roles</td>
+                <td><a href="{{ url_for('admin.roles') }}">Link</a></td>
+            </tr>
+        </tbody>
+    </table>
+</main>
+{% endblock %}
