@@ -13,7 +13,7 @@ class RoleForm(ModelForm):
         model = Role
 
 
-class AssignRoleForm(ModelForm):
+class ModifyRoleForm(ModelForm):
     email = QuerySelectField(
         "User",
         query_factory=lambda: User.query.all(),

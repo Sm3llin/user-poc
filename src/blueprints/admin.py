@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_required
 from sqlalchemy.orm import joinedload
 
-from forms.admin.roles import AssignRoleForm, RoleForm
+from forms.admin.roles import ModifyRoleForm, RoleForm
 from models.role import Role
 from models.user import User
 from util.decorators import role_required
@@ -56,7 +56,7 @@ def create_role():
 
 @admin.route("/role/assign", methods=["GET", "POST"])
 def assign_role():
-    form = AssignRoleForm()
+    form = ModifyRoleForm()
 
     if form.validate_on_submit():
         from db import db
@@ -70,3 +70,21 @@ def assign_role():
 
         return redirect(url_for('admin.assign_role'))
     return render_template('admin/assign_role.html', form=form)
+
+
+@admin.route("/role/remove", methods=["GET", "POST"])
+def remove_role():
+    form = ModifyRoleForm()
+
+    if form.validate_on_submit():
+        from db import db
+        user = form.email.data
+        role = form.role.data
+
+        if role in user.roles:
+            user.roles.remove(role)
+
+            db.session.commit()
+
+        return redirect(url_for('admin.remove_role'))
+    return render_template('admin/remove_role.html', form=form)
